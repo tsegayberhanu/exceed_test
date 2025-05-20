@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Tbl_application {
+  id          Int    @id @default(autoincrement()) // Auto-incrementing ID
+  bank_name   String
+  branch_name String
+
+  account_name   String
+  account_number String
+  status         Status
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+}
+
+model Tbl_bank {
+  id         Int          @id @default(autoincrement()) // Auto-incrementing ID
+  value      String
+  Tbl_branch Tbl_branch[]
+}
+
+model Tbl_branch {
+  id    Int    @id @default(autoincrement()) // Auto-incrementing ID
+  value String
+
+  bank    Tbl_bank @relation(fields: [bank_id], references: [id])
+  bank_id Int
+}
+
+model Tbl_transacion_history {
+  id             Int      @default(autoincrement()) // Auto-incrementing ID
+  value          String
+  transaction_id String   @id @default(cuid())
+  status         String
+  created_at     DateTime
+}
+
+enum Status {
+  Draft
+  Submitted
+}
