@@ -6,5 +6,9 @@ export class BankRepository {
 
     return banks;
   }
+  static async getBank(bankId:number) {
+    const banks = await  prisma.tbl_bank.findUnique({where:{id:bankId}});
+    return banks;
+  }
   
 }

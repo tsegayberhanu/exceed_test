@@ -8,4 +8,7 @@ export class ApplicationRepository {
     });
     return application;
   }
+  static async submitApplication(applicationData:any){
+    const application = await prisma.tbl_application.create({data:applicationData})
+  }
 }
